@@ -110,6 +110,9 @@ public class MainWindow extends JFrame {
 		shell.setText("SWT Application");
 		Label lbl_output = new Label(shell, SWT.NONE);
 		
+		
+		
+		
 		final Slider slider = new Slider(shell, SWT.HORIZONTAL);
       
         slider.setMinimum(0);
@@ -142,6 +145,22 @@ public class MainWindow extends JFrame {
 		lbl_img2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_img2.setBounds(546, 52, 300, 300);
 		
+		archivoelegido = new File("Fotos/mujerpintada.jpg");
+		foto1 = archivoelegido.getPath();
+		
+		Image imagen1 = new Image(display, foto1);
+        
+	   	imagen1 = resize(imagen1, lbl_img1.getBounds().width, lbl_img1.getBounds().height);
+	   	lbl_img1.setImage(imagen1);   
+		
+		
+	    archivoelegido2 = new File("Fotos/piramide.jpg");
+        foto2 = archivoelegido2.getPath();
+		Image imagen2 = new Image(display, foto2);
+        
+	   	imagen2 = resize(imagen2, lbl_img2.getBounds().width, lbl_img2.getBounds().height);
+	   	lbl_img2.setImage(imagen2);   
+		
 		
 		lbl_output.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_output.setBounds(280, 50, 300, 300);
@@ -169,8 +188,9 @@ public class MainWindow extends JFrame {
                  int estado = selector.showOpenDialog(null);
                  archivoelegido2 = selector.getSelectedFile();
                  foto2 = archivoelegido2.getPath();
-             
-                                 
+                 
+               
+                 
                  if(estado == JFileChooser.APPROVE_OPTION);
                  {
                 	 Image imagen = new Image(display, foto2);
@@ -196,7 +216,10 @@ public class MainWindow extends JFrame {
                  int estado = selector.showOpenDialog(null);
                  archivoelegido = selector.getSelectedFile();
                  
+                 System.out.println("archivo   : "+archivoelegido);
+                 
                  foto1 = archivoelegido.getPath();
+                 System.out.println("foto   : "+foto1);
              
                  if(estado == JFileChooser.APPROVE_OPTION){
                 	 Image imagen = new Image(display, foto1);
@@ -251,7 +274,7 @@ public class MainWindow extends JFrame {
 				try {
 					if(foto1.isEmpty() && foto2.isEmpty()) {
 						System.out.println("error, Inserte una foto");
-					}else {
+					}else {	
 						Image imaa;
 						if(operador.equals("+")) {
 							System.out.print("Ejecutanto +");
