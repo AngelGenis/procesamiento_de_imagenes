@@ -2,11 +2,15 @@ package Interfaz;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.Border;
 
 import org.eclipse.swt.SWT;
@@ -103,6 +108,30 @@ public class MainWindow extends JFrame {
 		shell.setSize(947, 479);
 		shell.setText("SWT Application");
 		
+		final Slider slider = new Slider(shell, SWT.HORIZONTAL);
+        slider.setMinimum(100);
+        slider.setMinimum(20);
+        slider.setSelection(30);
+        slider.setIncrement(10);
+  
+        slider.setBounds(330, 370, 200, 15);
+        /*
+        final Label text = new Label(shell, SWT.NONE);
+        text.setBounds(0, 0, 286, 15);
+        text.setText("Holaafsafafafaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeeeeeeeeeeeefrrr");
+         */
+        
+        slider.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+	            int outString = slider.getSelection();
+	           // text.setText(Integer.toString(outString));        
+			}
+        });
+        
+    
+	
 		Label lbl_img1 = new Label(shell, SWT.NONE);
 		lbl_img1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_img1.setBounds(27, 52, 300, 300);
