@@ -81,7 +81,7 @@ public class MainWindow extends JFrame {
 			lbl_img.setBounds(cordx+280, cordy+50, 30, 30);
 
 			//cargar imagenes
-			File imgcargada = new File("C:/Users/Angel/Desktop/ImagenesJava/output"+i+".png");
+			File imgcargada = new File("Fotos/Chuncks/output"+i+".png");
 
 			Image imaa = new Image(display, imgcargada.getPath());
 			lbl_img.setImage(imaa);

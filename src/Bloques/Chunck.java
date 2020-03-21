@@ -47,7 +47,7 @@ public class Chunck {
 		 			}
 	 			}		
 	 			
-	 			File outputfile = new File ("C:/Users/Angel/Desktop/ImagenesJava/output"+i+".png");
+	 			File outputfile = new File ("Fotos/Chuncks/output"+i+".png");
 	 			
 	 			i++;
 	 			cont++;

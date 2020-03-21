@@ -114,7 +114,9 @@ public class ImageOperator {
 			}	
 		}
 		
-		File outputfile = new File ("C:/Users/Angel/Desktop/ImagenesJava/output.png");
+		//File outputfile = new File ("C:/Users/Angel/Desktop/ImagenesJava/output.png");
+		File outputfile = new File ("Fotos/Chuncks/output.png");
+		
 		
 		try {
 			ImageIO.write(output, "png", outputfile);
