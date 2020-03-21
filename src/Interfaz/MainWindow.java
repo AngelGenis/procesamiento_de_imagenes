@@ -2,11 +2,15 @@ package Interfaz;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +22,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.Border;
 
 import org.eclipse.swt.SWT;
@@ -37,9 +42,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 
 public class MainWindow extends JFrame {
-	
 
 	private static imagenes nuevaimg = new imagenes();
+	protected static String foto2;
+	protected static String foto1;
+	protected static File archivoelegido;
+	protected static File archivoelegido2;
+	protected static File out;
+	protected static Image imaa;
 	
 	private static  Image resize(Image image, int width, int height) {
 		Image scaled = new Image(Display.getDefault(), width, height);
@@ -71,7 +81,7 @@ public class MainWindow extends JFrame {
 			lbl_img.setBounds(cordx+280, cordy+50, 30, 30);
 
 			//cargar imagenes
-			File imgcargada = new File("C:/Users/Angel/Desktop/ImagenesJava/output"+i+".png");
+			File imgcargada = new File("Fotos/Chuncks/output"+i+".png");
 
 			Image imaa = new Image(display, imgcargada.getPath());
 			lbl_img.setImage(imaa);
@@ -90,11 +100,7 @@ public class MainWindow extends JFrame {
     }
 		
 
-	protected static String foto2;
-	protected static String foto1;
-	protected static File archivoelegido;
-	protected static File archivoelegido2;
-	protected static File out;
+	
 
 	public static void main(String[] args) {
 		
@@ -102,7 +108,30 @@ public class MainWindow extends JFrame {
 		Shell shell = new Shell();
 		shell.setSize(947, 479);
 		shell.setText("SWT Application");
+		Label lbl_output = new Label(shell, SWT.NONE);
 		
+		final Slider slider = new Slider(shell, SWT.HORIZONTAL);
+      
+        slider.setMinimum(0);
+        slider.setMaximum(60);
+        slider.setIncrement(6);
+        slider.setSelection(6);
+     
+        slider.setBounds(330, 370, 200, 15);
+        
+        
+       
+       
+        final Label text = new Label(shell, SWT.NONE);
+        text.setBounds(415, 385, 286, 15);
+        text.setText("Alpha: 6");
+        
+        slider.setVisible(false);
+        text.setVisible(false);
+      
+       
+
+	
 		Label lbl_img1 = new Label(shell, SWT.NONE);
 		lbl_img1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_img1.setBounds(27, 52, 300, 300);
@@ -113,7 +142,7 @@ public class MainWindow extends JFrame {
 		lbl_img2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_img2.setBounds(546, 52, 300, 300);
 		
-		Label lbl_output = new Label(shell, SWT.NONE);
+		
 		lbl_output.setBackground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
 		lbl_output.setBounds(280, 50, 300, 300);
 		lbl_output.setVisible(false);
@@ -147,7 +176,9 @@ public class MainWindow extends JFrame {
                 	 Image imagen = new Image(display, foto2);
          
                 	 imagen = resize(imagen, lbl_img2.getBounds().width, lbl_img2.getBounds().height);
-                	 lbl_img2.setImage(imagen);        	 				
+                	 lbl_img2.setImage(imagen);   
+                	 
+                	 
                  }
 			}
              
@@ -196,6 +227,9 @@ public class MainWindow extends JFrame {
 				
 				lbl_output.setVisible(false);
 				btn_refresh.setVisible(false);
+				slider.setVisible(false);
+		        text.setVisible(false);
+		        
 				
 			}
    
@@ -221,19 +255,21 @@ public class MainWindow extends JFrame {
 						Image imaa;
 						if(operador.equals("+")) {
 							System.out.print("Ejecutanto +");
-							out = ImageOperator.operaciones("suma",archivoelegido, archivoelegido2);						
+							out = ImageOperator.operaciones("suma",archivoelegido, archivoelegido2,0);						
 						}
 						else if(operador.equals("-")) {
 							System.out.print("Ejecutanto -");
-							out = ImageOperator.operaciones("resta",archivoelegido, archivoelegido2);		
+							out = ImageOperator.operaciones("resta",archivoelegido, archivoelegido2,0);		
 						}
 						else if(operador.equals("*")){
 							System.out.print("Ejecutanto *");
-							out = ImageOperator.operaciones("multiplicacion",archivoelegido, archivoelegido2);							
+							out = ImageOperator.operaciones("multiplicacion",archivoelegido, archivoelegido2,0);							
 						}
 						else if(operador.equals("#")){
 							System.out.print("Ejecutanto #");
-							out = ImageOperator.operaciones("lineal", archivoelegido, archivoelegido2);	
+							slider.setVisible(true);
+					        text.setVisible(true);
+							out = ImageOperator.operaciones("lineal", archivoelegido, archivoelegido2,6);	
 							
 						}
 						
@@ -267,6 +303,8 @@ public class MainWindow extends JFrame {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					lbl_output.setVisible(false);
+					slider.setVisible(false);
+			        text.setVisible(false);
 					Chunck.operaciones(out, 10, 10);
 					MainWindow.colocarLabels(10, 10, shell, display);
 				} catch (IOException e1) {
@@ -279,6 +317,55 @@ public class MainWindow extends JFrame {
 		
 		btn_chunck.setBounds(200, 10, 133, 25);
 	    btn_chunck.setText("Chunck");
+	    
+	    slider.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+	            int outString = slider.getSelection();
+	        
+	            if(outString >=0 && outString<=10) {
+	            	outString = 1;
+	            }
+	            if(outString >10 && outString<=15) {
+	            	outString = 2;
+	            }
+	            if(outString >15 && outString<=20) {
+	            	outString = 3;
+	            }
+	            if(outString >20 && outString<=25) {
+	            	outString = 4;
+	            }
+	            if(outString >25 && outString<=30) {
+	            	outString = 5;
+	            }
+	            if(outString >30 && outString<=35) {
+	            	outString = 6;
+	            }
+	            if(outString >35 && outString<=40) {
+	            	outString = 7;
+	            }
+	            if(outString >40 && outString<=45) {
+	            	outString = 8;
+	            }
+	            if(outString >45 && outString<=50) {
+	            	outString = 9;
+	            }
+  
+	            try {
+					out = ImageOperator.operaciones("lineal", archivoelegido, archivoelegido2, outString);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+	            
+	            imaa = new Image(display, out.getPath());
+				lbl_output.setImage(imaa);
+				
+				
+	            text.setText("Alpha: " + Integer.toString(outString));        
+			}
+        });
 	    
 	 
 

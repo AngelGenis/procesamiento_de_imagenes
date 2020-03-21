@@ -28,7 +28,7 @@ public class ImageOperator {
 		return image;
 	}
 	
-	public static File operaciones(String operacion, File imgn, File imgn2) throws IOException {
+	public static File operaciones(String operacion, File imgn, File imgn2, int alpha) throws IOException {
 		BufferedImage newImage = leerImagen(imgn);
 	 	BufferedImage newImage2 = leerImagen(imgn2);
 	 	BufferedImage output = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
@@ -91,9 +91,19 @@ public class ImageOperator {
 				}
 				
 				if(operacion == "lineal") {
-					opR = (int) Math.round((0.6 * rojo_img1) + (0.4 * rojo_img2));
-					opV = (int) Math.round((0.6 * verde_img1) + (0.4 * verde_img2));
-					opA = (int) Math.round((0.6 * azul_img1) + (0.4 * azul_img2));
+					
+					int beta = 10-alpha;
+					
+					String beta2 = "0."+beta;
+					String alpha2 = "0."+alpha;
+					
+
+					Double al = Double.parseDouble(alpha2);
+					Double b = Double.parseDouble(beta2);
+					
+					opR = (int) Math.round((al * rojo_img1) + (b * rojo_img2));
+					opV = (int) Math.round((al * verde_img1) + (b * verde_img2));
+					opA = (int) Math.round((al * azul_img1) + (b * azul_img2));
 				}
 					
 				Color newPixelColor = new Color(opR, opV, opA);
@@ -104,7 +114,9 @@ public class ImageOperator {
 			}	
 		}
 		
-		File outputfile = new File ("C:/Users/Angel/Desktop/ImagenesJava/output.png");
+		//File outputfile = new File ("C:/Users/Angel/Desktop/ImagenesJava/output.png");
+		File outputfile = new File ("Fotos/Chuncks/output.png");
+		
 		
 		try {
 			ImageIO.write(output, "png", outputfile);
